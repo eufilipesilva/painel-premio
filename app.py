@@ -210,6 +210,22 @@ st.markdown(
                  padding: 0.22rem 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}}
     .linha-tempo .pct {{display: block; font-size: 0.78rem; font-weight: 600; margin-top: 0.35rem; color: #2A2E37;}}
     .linha-tempo .pos {{display: block; font-size: 0.68rem; color: {CINZA};}}
+    .carr-r {{position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;}}
+    .carr-vista {{position: relative;}}
+    .carr-janela {{overflow: hidden;}}
+    .linha-tempo.carr-trilho {{display: flex; gap: 0.5rem; transition: transform 0.35s ease;}}
+    .carr-trilho .ano {{flex: 0 0 calc((100% - 2rem) / 5); min-width: 0;}}
+    .carr-seta {{display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+                 width: 30px; height: 30px; border-radius: 50%; align-items: center; justify-content: center;
+                 background: {NAVY}; color: #FFFFFF; font-size: 1.25rem; font-weight: 700; line-height: 1;
+                 cursor: pointer; padding-bottom: 3px; user-select: none;
+                 box-shadow: inset 0 0 0 2px {DESTAQUE}, 0 4px 10px rgba(10,36,59,0.25);
+                 transition: background 0.2s, transform 0.2s;}}
+    .carr-seta:hover {{background: {cnj.AZUL_ESCURO}; transform: translateY(-50%) scale(1.08);}}
+    /* esquerda: sobre a linha que separa as fases; direita: na margem do cartão */
+    .carr-seta.esq {{left: calc(-0.45rem - 16.5px);}}
+    .carr-seta.dir {{right: -24px;}}
+    @media (max-width: 900px) {{ .carr-seta.esq {{left: -12px;}} .carr-seta.dir {{right: -12px;}} }}
     .st-key-baixar_pdf button {{background: {NAVY}; border: none; box-shadow: inset 5px 0 0 {DESTAQUE};}}
     .st-key-baixar_pdf button:hover {{background: {cnj.AZUL_ESCURO};}}
     [data-testid="stPlotlyChart"] .main-svg {{background: transparent !important;}}
@@ -852,6 +868,7 @@ elif pagina == HISTORICO:
         ))
 
     FASES = [("Selo Justiça em Números", 2014, 2019), ("Prêmio CNJ de Qualidade", 2020, 2100)]
+    VISIVEIS = 5  # edições do Prêmio exibidas de uma vez; as anteriores ficam no carrossel
     grupos_html = []
     for i, (nome_fase, ini, fim) in enumerate(FASES):
         cards = [b for a, b in blocos if ini <= a <= fim]
@@ -860,12 +877,41 @@ elif pagina == HISTORICO:
         anos_fase = [a for a, _ in blocos if ini <= a <= fim]
         if grupos_html:
             grupos_html.append('<div class="fase-sep"></div>')
-        grupos_html.append(
-            f'<div class="fase" style="flex:{len(cards)}">'
-            f'<div class="fase-cab">{nome_fase} &nbsp;·&nbsp; {min(anos_fase)}–{max(anos_fase)}</div>'
-            f'<div class="linha-tempo" style="grid-template-columns:repeat({len(cards)}, minmax(0, 1fr))">'
-            f'{"".join(cards)}</div></div>'
-        )
+        cab = f'<div class="fase-cab">{nome_fase} &nbsp;·&nbsp; {min(anos_fase)}–{max(anos_fase)}</div>'
+        if fim < 2100 or len(cards) <= VISIVEIS:
+            corpo = (f'<div class="linha-tempo" style="grid-template-columns:repeat({len(cards)}, minmax(0, 1fr))">'
+                     f'{"".join(cards)}</div>')
+            largura = len(cards)
+        else:
+            # carrossel sem JavaScript: um rádio por posição; começa nas edições mais recentes
+            n_pos = len(cards) - VISIVEIS + 1
+            nome = "carr_" + re.sub(r"\W", "_", trib_h)
+            radios = "".join(
+                f'<input type="radio" class="carr-r" name="{nome}" id="{nome}_{k}"{" checked" if k == n_pos - 1 else ""}>'
+                for k in range(n_pos))
+            setas, regras = [], []
+            for k in range(n_pos):
+                anos_k = anos_fase[k:k + VISIVEIS]
+                if k > 0:
+                    escondidos = anos_fase[:k]
+                    setas.append(
+                        f'<label for="{nome}_{k - 1}" class="carr-seta esq s{k}" '
+                        f'title="Edições anteriores ({escondidos[0]}–{escondidos[-1]})">‹</label>')
+                if k < n_pos - 1:
+                    setas.append(f'<label for="{nome}_{k + 1}" class="carr-seta dir s{k}" '
+                                 f'title="Edições seguintes">›</label>')
+                regras.append(
+                    f'#{nome}_{k}:checked ~ .carr-vista .carr-trilho '
+                    f'{{transform: translateX(calc({-k} * (100% + 0.5rem) / {VISIVEIS}));}}'
+                    f'#{nome}_{k}:checked ~ .carr-vista .s{k} {{display: flex;}}')
+            corpo = (
+                f'<style>{"".join(regras)}</style>'
+                f'<div class="carrossel">{radios}<div class="carr-vista">'
+                f'<div class="carr-janela"><div class="linha-tempo carr-trilho">{"".join(cards)}</div></div>'
+                f'{"".join(setas)}</div></div>'
+            )
+            largura = VISIVEIS
+        grupos_html.append(f'<div class="fase" style="flex:{largura}">{cab}{corpo}</div>')
 
     with cartao("hist_topo"):
         st.html(

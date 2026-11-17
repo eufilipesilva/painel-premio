@@ -2,6 +2,9 @@
 
 Painel em Streamlit com a identidade visual do CNJ (Manual de Uso da Marca, 2024).
 
+Manual completo de funcionalidades e manutenção: [`docs/MANUAL.md`](docs/MANUAL.md)
+(versões anteriores em `docs/versoes/`).
+
 ## Páginas
 
 - **Ficha Avaliativa** — itens, pontuação e comentários de cada tribunal, com download em PDF e CSV.
