@@ -1,0 +1,17 @@
+# Identidade visual CNJ — Manual de Uso da Marca (2024)
+[theme]
+base = "light"
+primaryColor = "#0f76b5"
+backgroundColor = "#F1F3F6"
+secondaryBackgroundColor = "#F7F8FA"
+textColor = "#1a171b"
+font = "Montserrat:https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+headingFont = "Montserrat:https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+baseRadius = "0.6rem"
+borderColor = "#DADDE2"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
