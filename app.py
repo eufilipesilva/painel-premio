@@ -16,7 +16,7 @@ from ficha_pdf import gerar_pdf
 import historico as hist_mod
 
 # ano da edição exibida (banner, rodapé, PDF da ficha e filtro de porte)
-ANO_EDICAO = 2026
+ANO_EDICAO = 2025
 ARQUIVO = Path(__file__).parent / "base_final.xlsx"
 # tribunais retirados do painel (a planilha original não é alterada)
 EXCLUIDOS = ["TRT16", "CJF", "TSE"]
