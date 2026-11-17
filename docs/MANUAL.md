@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.1 — 17/11/2026**
+**Versão 1.2 — 17/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -243,11 +243,8 @@ arquivos originais não são alterados.
   - os selos são redistribuídos dentro de cada ramo, mantendo a quantidade de cada um.
 - Para ver: `$env:PAINEL_SIMULACAO = "1"; streamlit run app.py`.
 - Para desligar: `Remove-Item Env:PAINEL_SIMULACAO`.
-- A simulação fica marcada em todo lugar:
-  - selo amarelo "Dados simulados" no banner;
-  - "(simulação)" nos títulos e no seletor;
-  - "[SIMULAÇÃO]" nos comentários;
-  - "SIMULAÇÃO" no cabeçalho do PDF.
+- O painel **não exibe nenhum aviso de simulação**: a edição simulada aparece igual a uma edição real.
+  Por isso, use a simulação só no seu computador e nunca envie a pasta `simulacao/` para o GitHub.
 - `simulacao/` está no `.gitignore`. Sem a variável, ela é ignorada, então o painel publicado nunca a mostra.
   Uma edição real do mesmo ano tem prioridade sobre a simulada.
 
@@ -311,5 +308,6 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.2 | 17/11/2026 | Retirados os avisos de dados simulados do painel (selo no banner, "(simulação)" nos títulos e no seletor, marca no PDF e nos comentários). O mecanismo de simulação continua disponível para testes locais. |
 | 1.1 | 17/11/2026 | A Ficha Avaliativa mostra sempre a última edição inserida: o seletor de edição foi retirado dela e continua só no Percentual de cumprimento. |
 | 1.0 | 17/11/2026 | **Primeira versão deste manual.** Descreve o painel com as quatro páginas (Ficha Avaliativa, Percentual de cumprimento, Histórico, Evolução do Prêmio). Novidades da sessão: (a) edições organizadas por pasta `dados/<ano>/`, com detecção automática da edição atual e seletor de edição na Ficha e no Percentual; (b) histórico completado a partir da planilha quando o ano não está no CSV; (c) simulação de 2026 (`simular_edicao.py` + `PAINEL_SIMULACAO`); (d) `verificar_dados.py` conferindo todas as edições; (e) carrossel com as 5 edições mais recentes na fase do Prêmio da linha do tempo; (f) manual em PDF no padrão visual do CNJ (`gerar_manual_pdf.py`). Antes disso: publicação no GitHub e no Streamlit Cloud (com a correção do `svglib`) e a edição exibida ajustada para 2025. |

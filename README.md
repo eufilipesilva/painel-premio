@@ -54,9 +54,8 @@ python simular_edicao.py                          # cria simulacao/2026/base_fin
 $env:PAINEL_SIMULACAO = "1"; streamlit run app.py   # painel com a edição simulada
 ```
 
-A edição simulada aparece com o selo amarelo "Dados simulados" no banner, "(simulação)" nos títulos,
-"[SIMULAÇÃO]" nos comentários e no cabeçalho do PDF. A pasta `simulacao/` não vai para o GitHub, e sem a
-variável `PAINEL_SIMULACAO` ela é ignorada — o painel publicado nunca a mostra. Para desligar no mesmo
+O painel não exibe aviso de simulação: a edição simulada aparece igual a uma real. A pasta `simulacao/`
+não vai para o GitHub, e sem a variável `PAINEL_SIMULACAO` ela é ignorada — o painel publicado nunca a mostra. Para desligar no mesmo
 terminal: `Remove-Item Env:PAINEL_SIMULACAO`.
 
 Tribunais fora do painel: lista `EXCLUIDOS` em `app.py`.

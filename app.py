@@ -384,7 +384,7 @@ def carregar(ano: int = ANO_EDICAO) -> pd.DataFrame:
 
 
 def rotulo_edicao(ano: int) -> str:
-    return f"{ano} (simulação)" if EDICOES[ano].simulada else str(ano)
+    return str(ano)
 
 
 def seletor_edicao(chave: str, alvo=st) -> int:
@@ -439,12 +439,6 @@ def resumo_tribunais(df: pd.DataFrame) -> pd.DataFrame:
 
 df = carregar()
 tribunais = resumo_tribunais(df)
-simuladas = [str(a) for a, e in EDICOES.items() if e.simulada]
-AVISO_SIMULACAO = (
-    ' <span style="background:#F2B705;color:#1a171b;padding:0.1rem 0.55rem;border-radius:999px;'
-    f'margin-left:0.6rem;letter-spacing:0.06em">Dados simulados: {", ".join(simuladas)}</span>'
-    if simuladas else ""
-)
 
 # --------------------------------------------------------------------------- topo
 st.markdown('<div id="topo"></div>' + CSS_BOTOES, unsafe_allow_html=True)
@@ -460,7 +454,7 @@ st.html(
         <img class="cnj-logo" src="{cnj.logo_data_uri('branca')}" alt="Conselho Nacional de Justiça">
         <div class="cnj-sep"></div>
         <div>
-          <div class="cnj-kicker">Prêmio CNJ de Qualidade{AVISO_SIMULACAO}</div>
+          <div class="cnj-kicker">Prêmio CNJ de Qualidade</div>
           <h1>Painel de Resultados {ANO_EDICAO}</h1>
           <p>Ficha avaliativa, percentual de cumprimento e histórico por tribunal</p>
         </div>
@@ -507,8 +501,7 @@ def pdf_ficha(trib: str, eixo: str, ano: int, versao: float = 0.0) -> bytes:
     if eixo != "Todos":
         dt = dt[dt["Eixo"] == eixo]
     dt = dt.sort_values(["ordem_item", "Ordem", "Alínea"])
-    titulo_ano = f"{ano} · SIMULAÇÃO" if EDICOES[ano].simulada else ano
-    return gerar_pdf(trib, info, dt, por_eixo, ORDEM_EIXO, CORES_EIXO, eixo, ano=titulo_ano)
+    return gerar_pdf(trib, info, dt, por_eixo, ORDEM_EIXO, CORES_EIXO, eixo, ano=ano)
 
 
 

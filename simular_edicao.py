@@ -37,7 +37,6 @@ novo = (atual + base["Tribunal"].map(tendencia) + rng.normal(0, 0.12, len(base))
 base["Pontuação"] = (np.round(novo * 20) / 20 * maximo).round(2).where(maximo > 0, base["Pontuação"])
 if "PontCheck" in base:
     base["PontCheck"] = base["Pontuação"]
-base["Comentário"] = "[SIMULAÇÃO] " + base["Comentário"].fillna("").astype(str)
 
 # percentual final e premiação (somente tribunais classificados na origem)
 pts = base.groupby("Tribunal").agg(P=("Pontuação", "sum"), M=("Máximo", "sum"),
