@@ -31,8 +31,41 @@ def sigla_padrao(sigla: str) -> str:
     return f"TRE-{m.group(1)}" if m else str(sigla).strip()
 
 
-def carregar(caminho, excluidos=()) -> pd.DataFrame:
+# "Porte" da planilha da edição -> "Categoria" da série (mesmos textos do CSV)
+_CATEGORIA = {
+    "Estadual": "Justiça Estadual",
+    "Trabalho": "Justiça do Trabalho",
+    "Eleitoral": "Justiça Eleitoral",
+    "Federal": "Justiça Federal",
+    "Militar Estadual": "Justiça Militar Estadual",
+    "Superior": "Tribunais Superiores",
+}
+
+
+def linhas_da_edicao(base: pd.DataFrame, ano: int) -> pd.DataFrame:
+    """Converte a planilha de uma edição (formato base_final.xlsx) em linhas da série histórica."""
+    r = (base.groupby("Tribunal")
+         .agg(Justiça=("Ramo de Justiça", "first"), Resultado=("Pontuação", "sum"),
+              Máximo=("Máximo", "sum"), Percentual=("Percentual Final", "first"),
+              Selo=("Premiação", "first"), Porte=("Porte", "first"))
+         .reset_index())
+    r = r.dropna(subset=["Selo", "Justiça"])  # tribunais fora da classificação (ex.: CJF)
+    r["Percentual"] = r["Percentual"].fillna(r["Resultado"] / r["Máximo"])
+    tamanho = r["Porte"].astype(str).str.extract(r"(Grande|Médio|Pequeno)")[0]
+    r["Categoria"] = [
+        f"{_CATEGORIA.get(j, j)} {t} Porte" if isinstance(t, str) else _CATEGORIA.get(j, j)
+        for j, t in zip(r["Justiça"], tamanho)
+    ]
+    r["Ano"], r["Sigla"], r["Original"] = ano, r["Tribunal"], True
+    return r[["Ano", "Sigla", "Justiça", "Resultado", "Percentual", "Selo", "Original", "Categoria"]]
+
+
+def carregar(caminho, excluidos=(), edicoes=()) -> pd.DataFrame:
+    """Série do CSV + linhas das edições (DataFrames de linhas_da_edicao) cujo ano ainda não está no CSV."""
     h = pd.read_csv(caminho, sep=";", decimal=",", encoding="latin-1", index_col=0)
+    novos = [e for e in edicoes if len(e) and not h["Ano"].eq(e["Ano"].iloc[0]).any()]
+    if novos:
+        h = pd.concat([h, *novos], ignore_index=True)
     h["Tribunal"] = h["Sigla"].map(sigla_padrao)
     h = h[~h["Tribunal"].isin(excluidos)].copy()
 

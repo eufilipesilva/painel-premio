@@ -11,17 +11,17 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import streamlit as st
 
+import edicoes as ed
 import identidade as cnj
 from ficha_pdf import gerar_pdf
 import historico as hist_mod
 
-# ano da edição exibida (banner, rodapé, PDF da ficha e filtro de porte)
-ANO_EDICAO = 2025
-ARQUIVO = Path(__file__).parent / "base_final.xlsx"
+# edições: uma pasta por ano em dados/<ano>/ com a planilha (e, opcionalmente, fichas_pdf/).
+# A edição atual (banner, rodapé, filtro de porte do histórico) é o maior ano encontrado.
+EDICOES = ed.encontrar()
+ANO_EDICAO = max(EDICOES)
 # tribunais retirados do painel (a planilha original não é alterada)
 EXCLUIDOS = ["TRT16", "CJF", "TSE"]
-# fichas avaliativas oficiais em PDF (uma por tribunal; a sigla deve constar no nome do arquivo)
-PASTA_FICHAS = Path(__file__).parent / "fichas_pdf"
 ARQUIVO_HIST = Path(__file__).parent / "Serie_Completa.csv"
 # texto da página "Evolução do Prêmio" (escrito manualmente; o painel só aplica o estilo)
 ARQUIVO_HISTORIA = Path(__file__).parent / "historia.py"
@@ -358,14 +358,31 @@ def cartao(nome):
 
 
 # --------------------------------------------------------------------------- dados
-def carregar() -> pd.DataFrame:
-    # a data de modificação renova o cache quando o base_final.xlsx é substituído
-    return _carregar(ARQUIVO.stat().st_mtime, tuple(EXCLUIDOS))
+def versao_edicao(ano: int) -> float:
+    # a data de modificação renova o cache quando a planilha é substituída
+    return EDICOES[ano].planilha.stat().st_mtime
+
+
+def carregar(ano: int = ANO_EDICAO) -> pd.DataFrame:
+    return _carregar(str(EDICOES[ano].planilha), versao_edicao(ano), tuple(EXCLUIDOS))
+
+
+def rotulo_edicao(ano: int) -> str:
+    return f"{ano} (simulação)" if EDICOES[ano].simulada else str(ano)
+
+
+def seletor_edicao(chave: str, alvo=st) -> int:
+    """Escolha da edição; só aparece quando há mais de uma."""
+    anos = sorted(EDICOES, reverse=True)
+    if len(anos) == 1:
+        return anos[0]
+    return alvo.segmented_control("Edição", anos, default=anos[0], key=chave,
+                                  format_func=rotulo_edicao) or anos[0]
 
 
 @st.cache_data
-def _carregar(versao: float, excluidos: tuple) -> pd.DataFrame:
-    df = pd.read_excel(ARQUIVO)
+def _carregar(caminho: str, versao: float, excluidos: tuple) -> pd.DataFrame:
+    df = pd.read_excel(caminho)
     df = df[~df["Tribunal"].isin(EXCLUIDOS)].copy()
     df["Comentário"] = (
         df["Comentário"].astype(str).str.replace("_x000D_", "", regex=False).replace("nan", "")
@@ -406,6 +423,12 @@ def resumo_tribunais(df: pd.DataFrame) -> pd.DataFrame:
 
 df = carregar()
 tribunais = resumo_tribunais(df)
+simuladas = [str(a) for a, e in EDICOES.items() if e.simulada]
+AVISO_SIMULACAO = (
+    ' <span style="background:#F2B705;color:#1a171b;padding:0.1rem 0.55rem;border-radius:999px;'
+    f'margin-left:0.6rem;letter-spacing:0.06em">Dados simulados: {", ".join(simuladas)}</span>'
+    if simuladas else ""
+)
 
 # --------------------------------------------------------------------------- topo
 st.markdown('<div id="topo"></div>' + CSS_BOTOES, unsafe_allow_html=True)
@@ -421,7 +444,7 @@ st.html(
         <img class="cnj-logo" src="{cnj.logo_data_uri('branca')}" alt="Conselho Nacional de Justiça">
         <div class="cnj-sep"></div>
         <div>
-          <div class="cnj-kicker">Prêmio CNJ de Qualidade</div>
+          <div class="cnj-kicker">Prêmio CNJ de Qualidade{AVISO_SIMULACAO}</div>
           <h1>Painel de Resultados {ANO_EDICAO}</h1>
           <p>Ficha avaliativa, percentual de cumprimento e histórico por tribunal</p>
         </div>
@@ -437,14 +460,15 @@ sel = tribunais
 df_sel = df
 
 
-def ficha_oficial(trib: str):
-    """Procura em PASTA_FICHAS o PDF do tribunal (ex.: TJAC.pdf, Ficha_TRE-AC.pdf, TRT_01.pdf)."""
-    if not PASTA_FICHAS.is_dir():
+def ficha_oficial(trib: str, ano: int):
+    """Procura em dados/<ano>/fichas_pdf o PDF do tribunal (ex.: TJAC.pdf, Ficha_TRE-AC.pdf, TRT_01.pdf)."""
+    pasta = EDICOES[ano].fichas
+    if not pasta.is_dir():
         return None
     partes = re.findall(r"[A-Z]+|\d+", trib.upper())
     padrao = r"(?<![A-Z0-9])" + r"[\W_]*".join(
         ("0*" + p) if p.isdigit() else p for p in partes) + r"(?![A-Z0-9])"
-    achados = [f for f in sorted(PASTA_FICHAS.glob("*.pdf")) if re.search(padrao, f.stem.upper())]
+    achados = [f for f in sorted(pasta.glob("*.pdf")) if re.search(padrao, f.stem.upper())]
     if not achados:
         return None
     exatos = [f for f in achados if re.sub(r"[\W_]", "", f.stem.upper()) == re.sub(r"\W", "", trib.upper())]
@@ -457,16 +481,18 @@ def ler_arquivo(caminho: str, modificado: float) -> bytes:
 
 
 @st.cache_data(show_spinner="Gerando PDF...")
-def pdf_ficha(trib: str, eixo: str, versao: float = 0.0) -> bytes:
-    info = tribunais.set_index("Tribunal").loc[trib].to_dict()
+def pdf_ficha(trib: str, eixo: str, ano: int, versao: float = 0.0) -> bytes:
+    base = carregar(ano)
+    info = resumo_tribunais(base).set_index("Tribunal").loc[trib].to_dict()
     info["Premiação"] = str(info["Premiação"])
-    dt = df[df["Tribunal"] == trib].copy()
+    dt = base[base["Tribunal"] == trib].copy()
     dt["Perc"] = dt["Pontuação"] / dt["Máximo"].where(dt["Máximo"] > 0)
     por_eixo = dt.groupby("Eixo")[["Pontuação", "Máximo"]].sum()
     if eixo != "Todos":
         dt = dt[dt["Eixo"] == eixo]
     dt = dt.sort_values(["ordem_item", "Ordem", "Alínea"])
-    return gerar_pdf(trib, info, dt, por_eixo, ORDEM_EIXO, CORES_EIXO, eixo, ano=ANO_EDICAO)
+    titulo_ano = f"{ano} · SIMULAÇÃO" if EDICOES[ano].simulada else ano
+    return gerar_pdf(trib, info, dt, por_eixo, ORDEM_EIXO, CORES_EIXO, eixo, ano=titulo_ano)
 
 
 
@@ -476,12 +502,15 @@ def chave_natural(t):
 
 @st.cache_data
 def _historico(versao: tuple) -> pd.DataFrame:
-    return hist_mod.carregar(ARQUIVO_HIST, EXCLUIDOS)
+    # anos de edição que ainda não estão no CSV entram a partir da planilha da própria edição
+    linhas = [hist_mod.linhas_da_edicao(pd.read_excel(e.planilha), ano) for ano, e in EDICOES.items()]
+    return hist_mod.carregar(ARQUIVO_HIST, EXCLUIDOS, linhas)
 
 
 def carregar_historico() -> pd.DataFrame:
-    # a versão (datas de modificação) renova o cache quando o CSV ou o historico.py mudam
-    versao = (ARQUIVO_HIST.stat().st_mtime, Path(hist_mod.__file__).stat().st_mtime, tuple(EXCLUIDOS))
+    # a versão (datas de modificação) renova o cache quando o CSV, as planilhas ou o historico.py mudam
+    versao = (ARQUIVO_HIST.stat().st_mtime, Path(hist_mod.__file__).stat().st_mtime, tuple(EXCLUIDOS),
+              tuple((ano, str(e.planilha), versao_edicao(ano)) for ano, e in EDICOES.items()))
     return _historico(versao)
 
 
@@ -538,13 +567,17 @@ if pagina == FICHA:
             return "#E1EFF8", "#0F5F94"
         return "#F9E3E1", "#A33A2F"
 
-    ramos_ficha = [r for r in ORDEM_RAMO if r in sel["Ramo"].unique()]
     with cartao("ficha_sel"):
+        c1, c2 = st.columns([4, 1.4]) if len(EDICOES) > 1 else (st.container(), None)
+        ano_f = seletor_edicao("ficha_edicao", c2) if c2 else ANO_EDICAO
+        df_f = carregar(ano_f)
+        tr_f = resumo_tribunais(df_f)
+        ramos_ficha = [r for r in ORDEM_RAMO if r in tr_f["Ramo"].unique()]
         ramo_padrao = ramos_ficha[0]
-        ramo_f = st.segmented_control(
+        ramo_f = c1.segmented_control(
             "Ramo de justiça", ramos_ficha, default=ramo_padrao, key="ficha_ramo"
         ) or ramo_padrao
-        tribs = sorted(sel.loc[sel["Ramo"] == ramo_f, "Tribunal"], key=chave_natural)
+        tribs = sorted(tr_f.loc[tr_f["Ramo"] == ramo_f, "Tribunal"], key=chave_natural)
         trib = st.pills(
             "Tribunal", tribs, default=tribs[0], key=f"ficha_trib_{re.sub(r'\W', '_', ramo_f)}"
         ) or tribs[0]
@@ -552,8 +585,8 @@ if pagina == FICHA:
             "Eixo", ["Todos"] + ORDEM_EIXO, default="Todos", key="ficha_eixo"
         ) or "Todos"
 
-    info = tribunais.set_index("Tribunal").loc[trib]
-    dt = df[df["Tribunal"] == trib].copy()
+    info = tr_f.set_index("Tribunal").loc[trib]
+    dt = df_f[df_f["Tribunal"] == trib].copy()
     dt["Perc"] = dt["Pontuação"] / dt["Máximo"].where(dt["Máximo"] > 0)
 
     # ---- cabeçalho do tribunal
@@ -625,7 +658,7 @@ if pagina == FICHA:
             )
 
     with cartao("ficha_quadro"):
-        titulo = "Ficha avaliativa" + ("" if eixo_f == "Todos" else f" — {eixo_f}")
+        titulo = f"Ficha avaliativa {rotulo_edicao(ano_f)}" + ("" if eixo_f == "Todos" else f" — {eixo_f}")
         st.subheader(titulo)
         st.html(
             '<div class="ficha-quadro"><table>'
@@ -639,7 +672,7 @@ if pagina == FICHA:
         exportar = dt[["Tribunal", "Eixo", "Inciso", "Descrição", "Alínea", "Ordem", "Máximo",
                        "Pontuação", "Comentário"]]
         sufixo = "" if eixo_f == "Todos" else "_" + re.sub(r"\W+", "_", eixo_f.lower())
-        oficial = ficha_oficial(trib)
+        oficial = ficha_oficial(trib, ano_f)
         b1, b2, _ = st.columns([1.3, 1.3, 4], vertical_alignment="center")
         with b1:
             if oficial:
@@ -652,26 +685,30 @@ if pagina == FICHA:
             else:
                 st.download_button(
                     "Baixar ficha (PDF)",
-                    data=pdf_ficha(trib, eixo_f, ARQUIVO.stat().st_mtime),
-                    file_name=f"ficha_avaliativa_{trib}{sufixo}.pdf", mime="application/pdf",
+                    data=pdf_ficha(trib, eixo_f, ano_f, versao_edicao(ano_f)),
+                    file_name=f"ficha_avaliativa_{ano_f}_{trib}{sufixo}.pdf", mime="application/pdf",
                     icon=":material/picture_as_pdf:", key="baixar_pdf", type="primary", width="stretch",
                 )
         with b2:
             st.download_button(
                 "Baixar ficha (CSV)", exportar.to_csv(index=False, sep=";", decimal=",").encode("utf-8-sig"),
-                file_name=f"ficha_avaliativa_{trib}{sufixo}.csv", mime="text/csv",
+                file_name=f"ficha_avaliativa_{ano_f}_{trib}{sufixo}.csv", mime="text/csv",
                 icon=":material/download:", width="stretch",
             )
 
 # --------------------------------------------------------------------------- Percentual de cumprimento
 elif pagina == CUMPRIMENTO:
     ORDEM_PORTE = ["Grande", "Médio", "Pequeno"]
-    base_g = tribunais.copy()
-    base_g["Porte_simples"] = [p.replace(r, "").strip() for p, r in zip(base_g["Porte"], base_g["Ramo"])]
-    ramos_g = [r for r in ORDEM_RAMO if r in base_g["Ramo"].unique()]
-
     with cartao("cumprimento_sel"):
-        c1, c2 = st.columns([3, 1.6])
+        if len(EDICOES) > 1:
+            c1, c2, c3 = st.columns([3, 1.6, 1.4])
+            ano_g = seletor_edicao("cump_edicao", c3)
+        else:
+            c1, c2 = st.columns([3, 1.6])
+            ano_g = ANO_EDICAO
+        base_g = resumo_tribunais(carregar(ano_g)).copy()
+        base_g["Porte_simples"] = [p.replace(r, "").strip() for p, r in zip(base_g["Porte"], base_g["Ramo"])]
+        ramos_g = [r for r in ORDEM_RAMO if r in base_g["Ramo"].unique()]
         with c1:
             ramo_g = st.segmented_control(
                 "Ramo de justiça", ramos_g, default="Estadual" if "Estadual" in ramos_g else ramos_g[0],
@@ -690,7 +727,7 @@ elif pagina == CUMPRIMENTO:
                     base_g = base_g[base_g["Porte_simples"] == porte_g]
 
     with cartao("cumprimento"):
-        st.subheader("Percentual final por tribunal e premiação")
+        st.subheader(f"Percentual final por tribunal e premiação · {rotulo_edicao(ano_g)}")
         rotulo = ramo_g if not porte_g or porte_g == "Todos" else f"{ramo_g} · {porte_g}"
         media_g = base_g["Percentual"].mean()
         st.caption(f"{rotulo} — {len(base_g)} tribunais · média do grupo {num_fmt(media_g * 100, 1)}%")
