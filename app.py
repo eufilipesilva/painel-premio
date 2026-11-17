@@ -584,8 +584,9 @@ if pagina == FICHA:
         return "#F9E3E1", "#A33A2F"
 
     with cartao("ficha_sel"):
-        c1, c2 = st.columns([4, 1.4]) if len(EDICOES) > 1 else (st.container(), None)
-        ano_f = seletor_edicao("ficha_edicao", c2) if c2 else ANO_EDICAO
+        # a ficha mostra sempre a última edição inserida (maior ano em dados/)
+        c1 = st.container()
+        ano_f = ANO_EDICAO
         df_f = carregar(ano_f)
         tr_f = resumo_tribunais(df_f)
         ramos_ficha = [r for r in ORDEM_RAMO if r in tr_f["Ramo"].unique()]
