@@ -383,18 +383,6 @@ def carregar(ano: int = ANO_EDICAO) -> pd.DataFrame:
     return _carregar(str(EDICOES[ano].planilha), versao_edicao(ano), tuple(EXCLUIDOS))
 
 
-def rotulo_edicao(ano: int) -> str:
-    return str(ano)
-
-
-def seletor_edicao(chave: str, alvo=st) -> int:
-    """Escolha da edição; só aparece quando há mais de uma."""
-    anos = sorted(EDICOES, reverse=True)
-    if len(anos) == 1:
-        return anos[0]
-    return alvo.segmented_control("Edição", anos, default=anos[0], key=chave,
-                                  format_func=rotulo_edicao) or anos[0]
-
 
 @st.cache_data
 def _carregar(caminho: str, versao: float, excluidos: tuple) -> pd.DataFrame:
@@ -668,7 +656,7 @@ if pagina == FICHA:
             )
 
     with cartao("ficha_quadro"):
-        titulo = f"Ficha avaliativa {rotulo_edicao(ano_f)}" + ("" if eixo_f == "Todos" else f" — {eixo_f}")
+        titulo = f"Ficha avaliativa {ano_f}" + ("" if eixo_f == "Todos" else f" — {eixo_f}")
         st.subheader(titulo)
         st.html(
             '<div class="ficha-quadro"><table>'
@@ -710,12 +698,9 @@ if pagina == FICHA:
 elif pagina == CUMPRIMENTO:
     ORDEM_PORTE = ["Grande", "Médio", "Pequeno"]
     with cartao("cumprimento_sel"):
-        if len(EDICOES) > 1:
-            c1, c2, c3 = st.columns([3, 1.6, 1.4])
-            ano_g = seletor_edicao("cump_edicao", c3)
-        else:
-            c1, c2 = st.columns([3, 1.6])
-            ano_g = ANO_EDICAO
+        # sempre a última edição inserida; ramo e porte lado a lado, cada um numa linha só
+        c1, c2 = st.columns([1.55, 1], gap="large")
+        ano_g = ANO_EDICAO
         base_g = resumo_tribunais(carregar(ano_g)).copy()
         base_g["Porte_simples"] = [p.replace(r, "").strip() for p, r in zip(base_g["Porte"], base_g["Ramo"])]
         ramos_g = [r for r in ORDEM_RAMO if r in base_g["Ramo"].unique()]
@@ -730,14 +715,14 @@ elif pagina == CUMPRIMENTO:
         with c2:
             if portes_g:
                 porte_g = st.segmented_control(
-                    "Porte", portes_g + ["Todos"], default=portes_g[0],
+                    "Porte", ["Todos"] + portes_g, default=portes_g[0],
                     key="cump_porte_" + re.sub(r"\W", "_", ramo_g),
                 ) or portes_g[0]
                 if porte_g != "Todos":
                     base_g = base_g[base_g["Porte_simples"] == porte_g]
 
     with cartao("cumprimento"):
-        st.subheader(f"Percentual final por tribunal e premiação · {rotulo_edicao(ano_g)}")
+        st.subheader(f"Percentual final por tribunal e premiação · {ano_g}")
         rotulo = ramo_g if not porte_g or porte_g == "Todos" else f"{ramo_g} · {porte_g}"
         media_g = base_g["Percentual"].mean()
         st.caption(f"{rotulo} — {len(base_g)} tribunais · média do grupo {num_fmt(media_g * 100, 1)}%")

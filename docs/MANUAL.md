@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.2 — 17/11/2026**
+**Versão 1.3 — 17/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -69,10 +69,11 @@ Cores do "% atingido": verde = 100%; azul = 50% a 99%; vermelho = abaixo de 50%;
 
 ### 2.2 Percentual de cumprimento
 
-Gráfico de barras horizontais com o percentual final de cada tribunal. A cor da barra é a premiação.
+Gráfico de barras horizontais com o percentual final de cada tribunal na **última edição inserida**.
+A cor da barra é a premiação.
 
-- Filtros: **Ramo de justiça**, **Porte** (Grande, Médio, Pequeno ou Todos, quando o ramo tem porte) e
-  **Edição** (quando há mais de uma; começa na mais recente).
+- Filtros, lado a lado numa só linha: **Ramo de justiça** e **Porte** (Todos, Grande, Médio ou Pequeno,
+  quando o ramo tem porte; começa em Grande). Não há seletor de edição.
 - O valor aparece dentro de cada barra, em negrito. A legenda das premiações fica abaixo do gráfico.
 - A legenda acima do gráfico informa o grupo, a quantidade de tribunais e a média do grupo.
 - Ao passar o mouse aparecem o nome completo, o percentual, os pontos e a premiação.
@@ -216,9 +217,9 @@ arquivos originais não são alterados.
 - A planilha da pasta é `base_final.xlsx`. Se esse nome não existir, vale a única `.xlsx` da pasta.
 - Em `app.py`:
   - `EDICOES = ed.encontrar()`.
-  - `ANO_EDICAO = max(EDICOES)` é a edição atual, usada no banner, no rodapé e no filtro de porte do histórico.
-  - `seletor_edicao()` cria o controle "Edição" (usado só no Percentual) e só o mostra quando há mais de uma edição.
-  - A Ficha usa sempre `ANO_EDICAO`.
+  - `ANO_EDICAO = max(EDICOES)` é a edição atual. É ela que aparece no banner, no rodapé, na Ficha, no
+    Percentual e no filtro de porte do histórico. Não há seletor de edição no painel.
+  - As edições anteriores continuam sendo lidas para compor o Histórico.
 
 ### 4.3 Cache
 
@@ -269,8 +270,8 @@ arquivos originais não são alterados.
    `git add -A; git commit -m "Edição 2026"; git push`.
 5. O Streamlit Cloud atualiza em instantes. Se não atualizar, use Manage app → Reboot app.
 
-O código não muda. O painel passa a mostrar 2026 como edição atual, a Ficha passa a mostrar 2026, o
-Percentual ganha o seletor 2026/2025 e o Histórico ganha o ano 2026.
+O código não muda. O painel passa a mostrar 2026 como edição atual: a Ficha e o Percentual passam a
+mostrar 2026 e o Histórico ganha o ano 2026.
 
 ### 5.2 Outras alterações comuns
 
@@ -308,6 +309,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.3 | 17/11/2026 | Percentual de cumprimento mostra sempre a última edição inserida: seletor de edição retirado; filtros de ramo e porte reorganizados lado a lado numa só linha, com "Todos" como primeira opção do porte. |
 | 1.2 | 17/11/2026 | Retirados os avisos de dados simulados do painel (selo no banner, "(simulação)" nos títulos e no seletor, marca no PDF e nos comentários). O mecanismo de simulação continua disponível para testes locais. |
 | 1.1 | 17/11/2026 | A Ficha Avaliativa mostra sempre a última edição inserida: o seletor de edição foi retirado dela e continua só no Percentual de cumprimento. |
 | 1.0 | 17/11/2026 | **Primeira versão deste manual.** Descreve o painel com as quatro páginas (Ficha Avaliativa, Percentual de cumprimento, Histórico, Evolução do Prêmio). Novidades da sessão: (a) edições organizadas por pasta `dados/<ano>/`, com detecção automática da edição atual e seletor de edição na Ficha e no Percentual; (b) histórico completado a partir da planilha quando o ano não está no CSV; (c) simulação de 2026 (`simular_edicao.py` + `PAINEL_SIMULACAO`); (d) `verificar_dados.py` conferindo todas as edições; (e) carrossel com as 5 edições mais recentes na fase do Prêmio da linha do tempo; (f) manual em PDF no padrão visual do CNJ (`gerar_manual_pdf.py`). Antes disso: publicação no GitHub e no Streamlit Cloud (com a correção do `svglib`) e a edição exibida ajustada para 2025. |
