@@ -2,8 +2,8 @@
 
 Painel em Streamlit com a identidade visual do CNJ (Manual de Uso da Marca, 2024).
 
-Manual completo de funcionalidades e manutenção: [`docs/MANUAL.md`](docs/MANUAL.md)
-(versões anteriores em `docs/versoes/`).
+Manual completo de funcionalidades e manutenção: [`docs/MANUAL.md`](docs/MANUAL.md) e [`docs/MANUAL.pdf`](docs/MANUAL.pdf)
+(versões em `docs/versoes/`; o PDF é gerado com `python gerar_manual_pdf.py`).
 
 ## Páginas
 

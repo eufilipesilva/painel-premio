@@ -6,8 +6,8 @@ Este documento é para quem for manter o painel: atualizar dados, ajustar textos
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
 está no código.
 
-A versão atual fica sempre neste arquivo (`docs/MANUAL.md`). Cada versão anterior fica guardada em
-`docs/versoes/`. O histórico de mudanças está no fim.
+A versão atual fica sempre neste arquivo (`docs/MANUAL.md`) e no PDF `docs/MANUAL.pdf`. Cada versão
+fica guardada em `docs/versoes/`, em Markdown e em PDF. O histórico de mudanças está no fim.
 
 ---
 
@@ -204,6 +204,8 @@ arquivos originais não são alterados.
 | `historia.py` | Conteúdo da página Evolução do Prêmio (somente leitura para o painel) |
 | `verificar_dados.py` | Confere os dados antes de publicar |
 | `simular_edicao.py` | Gera uma edição simulada para testes |
+| `gerar_manual_pdf.py` | Gera o PDF deste manual com a identidade visual do CNJ |
+| `docs/` | Este manual (`MANUAL.md` e `MANUAL.pdf`) e as versões anteriores em `docs/versoes/` |
 | `.streamlit/config.toml` | Tema: Montserrat, cor primária `#0f76b5`, fundo `#F1F3F6` |
 | `requirements.txt` | Versões fixas das bibliotecas |
 | `assets/cnj/` | Logotipos oficiais e o manual da marca |
@@ -285,7 +287,19 @@ O código não muda. O painel passa a mostrar 2026 como edição atual, a Ficha 
 | Trocar cores ou logotipos | `identidade.py` e `assets/cnj/` |
 | Atualizar uma biblioteca | `requirements.txt` (mantenha `svglib==1.5.1`: a 1.6+ exige pycairo, que não instala no Streamlit Cloud) |
 
-### 5.3 Conferências antes de publicar
+### 5.3 Atualizar este manual
+
+1. Edite `docs/MANUAL.md`. Suba a versão na linha "**Versão X.Y — data**" e acrescente uma linha na
+   tabela da seção 6.
+2. Copie o arquivo para `docs/versoes/MANUAL_vX.Y_AAAA-MM-DD.md`.
+3. Rode `python gerar_manual_pdf.py`. Ele gera `docs/MANUAL.pdf` e a cópia versionada
+   `docs/versoes/MANUAL_vX.Y_AAAA-MM-DD.pdf`, com capa, sumário com páginas, faixa institucional e
+   rodapé no padrão do CNJ.
+
+O gerador entende o Markdown usado aqui: títulos `##`/`###`, parágrafos, listas (com subníveis e
+numeradas), tabelas, blocos de código, **negrito**, `código` e links.
+
+### 5.4 Conferências antes de publicar
 
 - `python verificar_dados.py` confere as colunas, os valores previstos, as duplicidades e a coerência
   entre o CSV e a planilha. Use `--simulacao` para incluir as edições simuladas.
@@ -297,4 +311,4 @@ O código não muda. O painel passa a mostrar 2026 como edição atual, a Ficha 
 
 | Versão | Data | Mudanças |
 |---|---|---|
-| 1.0 | 17/11/2026 | **Primeira versão deste manual.** Descreve o painel com as quatro páginas (Ficha Avaliativa, Percentual de cumprimento, Histórico, Evolução do Prêmio). Novidades da sessão: (a) edições organizadas por pasta `dados/<ano>/`, com detecção automática da edição atual e seletor de edição na Ficha e no Percentual; (b) histórico completado a partir da planilha quando o ano não está no CSV; (c) simulação de 2026 (`simular_edicao.py` + `PAINEL_SIMULACAO`); (d) `verificar_dados.py` conferindo todas as edições; (e) carrossel com as 5 edições mais recentes na fase do Prêmio da linha do tempo. Antes disso: publicação no GitHub e no Streamlit Cloud (com a correção do `svglib`) e a edição exibida ajustada para 2025. |
+| 1.0 | 17/11/2026 | **Primeira versão deste manual.** Descreve o painel com as quatro páginas (Ficha Avaliativa, Percentual de cumprimento, Histórico, Evolução do Prêmio). Novidades da sessão: (a) edições organizadas por pasta `dados/<ano>/`, com detecção automática da edição atual e seletor de edição na Ficha e no Percentual; (b) histórico completado a partir da planilha quando o ano não está no CSV; (c) simulação de 2026 (`simular_edicao.py` + `PAINEL_SIMULACAO`); (d) `verificar_dados.py` conferindo todas as edições; (e) carrossel com as 5 edições mais recentes na fase do Prêmio da linha do tempo; (f) manual em PDF no padrão visual do CNJ (`gerar_manual_pdf.py`). Antes disso: publicação no GitHub e no Streamlit Cloud (com a correção do `svglib`) e a edição exibida ajustada para 2025. |
