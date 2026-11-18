@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.6 — 18/11/2026**
+**Versão 1.7 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -113,13 +113,24 @@ Linha do tempo histórica do Selo e do Prêmio, com um menu lateral que acompanh
   **no topo** da fase. Acrescente o link `#ano-…` correspondente no início do menu (`menu_html`). O id do bloco e o
   `href` do link precisam ser iguais.
 - **Imagens dos cartões:** ficam em `static/historia/`. O painel serve essa pasta (`enableStaticServing` em
-  `.streamlit/config.toml`).
-  1. Salve a imagem na pasta, com nome sem espaços nem acentos (ex.: `2026-2027.jpg`). Use JPG ou PNG,
-     de preferência na proporção 4:3 (ex.: 800 × 600) e com menos de 500 KB.
-  2. Em `historia.py`, coloque como primeira linha dentro de `<div class="timeline-card">`:
-     `<img src="app/static/historia/2026-2027.jpg" class="timeline-img" alt="descrição">`.
-  3. Envie a imagem junto com o `historia.py` para o GitHub.
-  O cartão sem a linha `<img>` fica só com texto. Se o arquivo citado não existir, aparece um ícone de imagem quebrada.
+  `.streamlit/config.toml`). Os cartões já esperam estes arquivos:
+
+  | Cartão | Arquivo |
+  |---|---|
+  | 2026 – 2027 | `2026-2027.jpg` |
+  | 2024 a 2025 | `2024-2025.jpg` |
+  | 2020 | `2020.jpg` |
+  | 2019 | `2019.jpg` |
+  | 2015 a 2018 | `2015-2018.jpg` |
+
+  - **Trocar ou incluir uma imagem:** basta salvar o arquivo na pasta com o nome da tabela e enviar para o
+    GitHub. O formato pode ser JPG, JPEG, PNG ou WEBP: o painel aceita qualquer um com o mesmo nome (ex.:
+    `2019.png`). Prefira a proporção 4:3 (ex.: 800 × 600) e menos de 500 KB.
+  - **Enquanto o arquivo não existir:** o cartão aparece só com texto, sem ícone de imagem quebrada. Quem faz
+    isso é a função `_imagens_historia` em `app.py`.
+  - **Cartão novo:** em `historia.py`, coloque como primeira linha dentro de `<div class="timeline-card">`:
+    `<img src="app/static/historia/NOME.jpg" class="timeline-img" alt="descrição">`. Use nomes sem espaços nem acentos.
+  - Os cartões de 2021 a 2022 e de 2013 continuam com imagens da internet (Unsplash).
 
 - **O texto foi escrito manualmente e não deve ser alterado pelo painel.**
 - O conteúdo fica em `historia.py`. O painel lê os textos desse arquivo sem executá-lo e aplica apenas o
@@ -200,8 +211,8 @@ arquivos originais não são alterados.
   | TST | 882,30 | 887,30 |
 - **2014:** alguns tribunais têm 0% com "Sem Prêmio". Talvez sejam casos de não participação; ainda não
   foi confirmado.
-- **Imagens em `historia.py`:** as de 2015–2018, 2019 e 2020 apontam para endereços do Unsplash que não
-  carregam.
+- **Imagens da Evolução do Prêmio:** os cartões 2026–2027, 2024 a 2025, 2020, 2019 e 2015 a 2018 aguardam as
+  imagens em `static/historia/` (veja a seção 2.4). Até lá, aparecem só com texto.
 
 ---
 
@@ -326,6 +337,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.7 | 18/11/2026 | Evolução do Prêmio: os cartões 2026–2027, 2024 a 2025, 2020, 2019 e 2015 a 2018 passam a usar imagens locais em `static/historia/` (nomes fixos). O painel aceita JPG/JPEG/PNG/WEBP e esconde a imagem enquanto o arquivo não existir; as imagens quebradas da internet foram retiradas desses cartões. |
 | 1.6 | 18/11/2026 | Evolução do Prêmio: retirado o bloco "2024 - Foco no Cidadão e IA" (e seu link no menu). Criada a pasta `static/historia/` para as imagens dos cartões, servida pelo Streamlit (`enableStaticServing`). |
 | 1.5 | 18/11/2026 | Evolução do Prêmio: incluídos os blocos "2024 a 2025 – Evolução do Critério de Pontuação" e "2026 – 2027: Instituição do regulamento bienal" (texto fornecido pelo usuário, com links para a Portaria CNJ n. 471/2025 e o Plano Pena Justa); linha do tempo e menu reordenados em ordem decrescente de ano. |
 | 1.4 | 18/11/2026 | `simular_edicao.py` retirado do repositório e incluído no `.gitignore` (fica só no computador local). A pasta `simulacao/` local foi apagada; o painel mostra apenas os dados reais de 2025. |

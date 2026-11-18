@@ -25,6 +25,9 @@ EXCLUIDOS = ["TRT16", "CJF", "TSE"]
 ARQUIVO_HIST = Path(__file__).parent / "Serie_Completa.csv"
 # texto da página "Evolução do Prêmio" (escrito manualmente; o painel só aplica o estilo)
 ARQUIVO_HISTORIA = Path(__file__).parent / "historia.py"
+# imagens dos cartões da Evolução do Prêmio (servidas pelo Streamlit em app/static/historia/)
+PASTA_IMAGENS_HISTORIA = Path(__file__).parent / "static" / "historia"
+EXTENSOES_IMAGEM = [".jpg", ".jpeg", ".png", ".webp"]
 
 ORDEM_PREMIO = ["Excelência", "Diamante", "Ouro", "Prata", "Sem Prêmio", "Não classificado"]
 CORES_PREMIO = {
@@ -512,7 +515,7 @@ def carregar_historico() -> pd.DataFrame:
 
 
 @st.cache_data
-def _historia(versao: float) -> dict:
+def _historia(versao: tuple) -> dict:
     """Lê os textos do historia.py sem executá-lo; o conteúdo é usado exatamente como está no arquivo."""
     import ast
     arvore = ast.parse(ARQUIVO_HISTORIA.read_text(encoding="utf-8"))
@@ -526,14 +529,34 @@ def _historia(versao: float) -> dict:
     return {
         "titulo": next((x for x in textos if 'class="page-title"' in x), ""),
         "subtitulo": next((x for x in textos if 'class="page-subtitle"' in x), ""),
-        "linha": variaveis.get("timeline_html", ""),
+        "linha": _imagens_historia(variaveis.get("timeline_html", "")),
         "menu": variaveis.get("menu_html", ""),
         "botoes": next((x for x in textos if "floating-btn" in x and "<a" in x), ""),
     }
 
 
+def _imagens_historia(texto: str) -> str:
+    """Imagens locais dos cartões (src="app/static/historia/<arquivo>"): aceita a mesma imagem em
+    .jpg/.jpeg/.png/.webp e, se o arquivo ainda não estiver na pasta, tira a imagem do cartão
+    (o cartão fica só com texto, sem ícone de imagem quebrada)."""
+    prefixo = "app/static/historia/"
+
+    def troca(m):
+        nome = m.group(1)
+        base, ext = Path(nome).stem, Path(nome).suffix.lower()
+        for e in dict.fromkeys([ext] + EXTENSOES_IMAGEM):
+            if (PASTA_IMAGENS_HISTORIA / f"{base}{e}").is_file():
+                return m.group(0).replace(prefixo + nome, f"{prefixo}{base}{e}")
+        return ""
+
+    return re.sub(r'<img\b[^>]*\bsrc="' + re.escape(prefixo) + r'([^"]+)"[^>]*>\s*', troca, texto)
+
+
 def carregar_historia() -> dict:
-    return _historia(ARQUIVO_HISTORIA.stat().st_mtime)
+    # a versão inclui as imagens da pasta: ao salvar uma imagem nova, a página é atualizada
+    imagens = tuple(sorted((f.name, f.stat().st_mtime) for f in PASTA_IMAGENS_HISTORIA.glob("*")
+                           if f.is_file())) if PASTA_IMAGENS_HISTORIA.is_dir() else ()
+    return _historia((ARQUIVO_HISTORIA.stat().st_mtime, imagens))
 
 
 def num_fmt(v, casas=2):

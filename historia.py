@@ -201,6 +201,7 @@ with col_main:
     <div class="timeline-phase">Fase 2: Maturidade e Inteligência</div>    
         <div class="timeline-item" id="ano-2026">
             <div class="timeline-card">
+                <img src="app/static/historia/2026-2027.jpg" class="timeline-img" alt="Biênio 2026-2027">
                 <div class="timeline-content">
                     <p class="timeline-year">2026 – 2027: Instituição do regulamento bienal</p>
                     <p class="timeline-text">A fim de atender a necessidade dos tribunais de possuir critérios mais previsíveis para melhorar o trabalho nas políticas tocadas pelo prêmio, foi publicada a da <a href="https://atos.cnj.jus.br/atos/detalhar/6575" target="_blank"><b>Portaria CNJ n. 471/2025</b></a> que apresentou o edital do Biênio 2026-2027 do Prêmio CNJ de Qualidade.</p>
@@ -211,6 +212,7 @@ with col_main:
         </div>
         <div class="timeline-item" id="ano-20242025">
             <div class="timeline-card">
+                <img src="app/static/historia/2024-2025.jpg" class="timeline-img" alt="Premio20242025">
                 <div class="timeline-content">
                     <p class="timeline-year">2024 a 2025 – Evolução do Critério de Pontuação</p>
                     <p class="timeline-text">O prêmio a partir de 2024 instituiu o critério de premiação dos tribunais por portes, conforme classificação dos tribunais estaduais, eleitorais e do trabalho no relatório Justiça em Números publicado no ano da premiação.</p>
@@ -249,7 +251,7 @@ with col_main:
         </div>
         <div class="timeline-item" id="ano-2020">
             <div class="timeline-card">
-                <img src="https://images.unsplash.com/photo-1588196749597-9ff0465b91af?auto=format&fit=crop&w=600&q=80" class="timeline-img" alt="Premio2020">
+                <img src="app/static/historia/2020.jpg" class="timeline-img" alt="Premio2020">
                 <div class="timeline-content">
                     <p class="timeline-year">2020 - Criação do DATAJUD</p>
                     <p class="timeline-text">Em 2020, o <a href="https://www.cnj.jus.br/sistemas/datajud/" target="_blank"><b>DATAJUD</b></a> foi instituído pela <a href="https://atos.cnj.jus.br/atos/detalhar/3428" target="_blank"><b>Resolução CNJ n. 331/2020</b></a> como fonte primária de dados do Sistema de Estatística do Poder Judiciário (SIESPJ) e passou ser a repositório de dados de referência para diversos itens do prêmio. </p>
@@ -266,7 +268,7 @@ with col_main:
         </div>
         <div class="timeline-item" id="ano-2019">
             <div class="timeline-card">
-                <img src="https://images.unsplash.com/photo-1588196749597-9ff0465b91af?auto=format&fit=crop&w=600&q=80" class="timeline-img" alt="Premio2019">
+                <img src="app/static/historia/2019.jpg" class="timeline-img" alt="Premio2019">
                 <div class="timeline-content">
                     <p class="timeline-year">2019 - Prêmio CNJ de Qualidade</p>
                     <p class="timeline-text">Por meio da <a href="https://atos.cnj.jus.br/atos/detalhar/2920" target="_blank"><b>Portaria CNJ n. 88/2019</b></a>, o CNJ instituiu no ano de 2019 o Prêmio CNJ de Qualidade, uma evolução do Selo Justiça em Números, com o objetivo de promover desenvolvimento da gestão, do planejamento estratégico, da transparência e da produção de dados pelos tribunais brasileiros. </p>
@@ -284,7 +286,7 @@ with col_main:
     <div class="timeline-phase" style="margin-top: 40px;">Início: Selo Justiça em Números</div> 
         <div class="timeline-item" id="ano-20152016">
             <div class="timeline-card">
-                <img src="https://images.unsplash.com/photo-1588196749597-9ff0465b91af?auto=format&fit=crop&w=600&q=80" class="timeline-img" alt="Selo20152016">
+                <img src="app/static/historia/2015-2018.jpg" class="timeline-img" alt="Selo20152016">
                 <div class="timeline-content">
                     <p class="timeline-year">2015 a 2018 - Evolução do Selo</p>
                     <p class="timeline-text">Diversos assuntos de interesse do Poder Judiciário Nacional foram agregados ao regulamento do Selo Justiça em Números durante entre 2015 e 2018, acarretando no crescimento de itens avaliativos ao certame. Abaixo temos a lista de temas adicionados durante os anos: </p>
