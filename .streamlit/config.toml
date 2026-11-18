@@ -12,6 +12,8 @@ borderColor = "#DADDE2"
 
 [server]
 headless = true
+# serve a pasta static/ (imagens da página Evolução do Prêmio em static/historia/)
+enableStaticServing = true
 
 [browser]
 gatherUsageStats = false

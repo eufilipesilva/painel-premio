@@ -227,16 +227,6 @@ with col_main:
                 </div>
             </div>
         </div>
-        <div class="timeline-item" id="ano-2024">
-            <div class="timeline-card">
-                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80" class="timeline-img" alt="Foco em IA 2024">
-                <div class="timeline-content">
-                    <p class="timeline-year">2024 - Foco no Cidadão e IA</p>
-                    <p class="timeline-text">O prêmio atinge um novo patamar de exigência técnica com a integração massiva ao DataJud (Base Nacional de Dados do Poder Judiciário). A qualidade e a higienização dos dados transmitidos passam a ser fundamentais para a pontuação.</p>
-                    <p class="timeline-text">Além disso, tribunais que desenvolvem e utilizam automação inteligente e modelos de Inteligência Artificial para agilizar a triagem, a baixa processual e o atendimento direto ao cidadão ganham destaque especial, refletindo uma justiça cada vez mais célere, preditiva e digital.</p>
-                </div>
-            </div>
-        </div>
         <div class="timeline-item" id="ano-2021">
             <div class="timeline-card">
                 <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80" class="timeline-img" alt="Premio2021">
@@ -336,7 +326,6 @@ with col_menu:
     <div style="font-weight: 800; color: #1815dd; margin-top: 15px; margin-bottom: 5px; font-size: 14px; text-transform: uppercase;">Fase 2: Maturidade</div>
     <a href="#ano-2026" class="sticky-link" style="padding-left: 10px;">📍 2026 – 2027: Instituição do regulamento bienal</a>
     <a href="#ano-20242025" class="sticky-link" style="padding-left: 10px;">📍 2024 a 2025 – Evolução do Critério de Pontuação</a>
-    <a href="#ano-2024" class="sticky-link" style="padding-left: 10px;">📍 2024 - DataJud e IA</a>
     <a href="#ano-2021" class="sticky-link" style="padding-left: 10px;">📍 2021 a 2022 - Criações de ferramentas de apoio aos tribunais</a>
     <a href="#ano-2020" class="sticky-link" style="padding-left: 10px;">📍 2020 - Criação do DATAJUD</a>
     <a href="#ano-2019" class="sticky-link" style="padding-left: 10px;">📍 2019 - Prêmio CNJ de Qualidade</a>

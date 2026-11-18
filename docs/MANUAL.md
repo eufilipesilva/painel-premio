@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.5 — 18/11/2026**
+**Versão 1.6 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -112,6 +112,14 @@ Linha do tempo histórica do Selo e do Prêmio, com um menu lateral que acompanh
 - **Para incluir um ano novo:** em `historia.py`, copie um bloco `<div class="timeline-item" id="ano-…">` e coloque-o
   **no topo** da fase. Acrescente o link `#ano-…` correspondente no início do menu (`menu_html`). O id do bloco e o
   `href` do link precisam ser iguais.
+- **Imagens dos cartões:** ficam em `static/historia/`. O painel serve essa pasta (`enableStaticServing` em
+  `.streamlit/config.toml`).
+  1. Salve a imagem na pasta, com nome sem espaços nem acentos (ex.: `2026-2027.jpg`). Use JPG ou PNG,
+     de preferência na proporção 4:3 (ex.: 800 × 600) e com menos de 500 KB.
+  2. Em `historia.py`, coloque como primeira linha dentro de `<div class="timeline-card">`:
+     `<img src="app/static/historia/2026-2027.jpg" class="timeline-img" alt="descrição">`.
+  3. Envie a imagem junto com o `historia.py` para o GitHub.
+  O cartão sem a linha `<img>` fica só com texto. Se o arquivo citado não existir, aparece um ícone de imagem quebrada.
 
 - **O texto foi escrito manualmente e não deve ser alterado pelo painel.**
 - O conteúdo fica em `historia.py`. O painel lê os textos desse arquivo sem executá-lo e aplica apenas o
@@ -132,6 +140,7 @@ dados/
   2026/ ...              próxima edição: mesma estrutura
 Serie_Completa.csv       série histórica 2014–2025
 historia.py              texto da página Evolução do Prêmio
+static/historia/         imagens dos cartões da Evolução do Prêmio
 simulacao/               edições simuladas (só local; não vai para o GitHub)
 ```
 
@@ -317,6 +326,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.6 | 18/11/2026 | Evolução do Prêmio: retirado o bloco "2024 - Foco no Cidadão e IA" (e seu link no menu). Criada a pasta `static/historia/` para as imagens dos cartões, servida pelo Streamlit (`enableStaticServing`). |
 | 1.5 | 18/11/2026 | Evolução do Prêmio: incluídos os blocos "2024 a 2025 – Evolução do Critério de Pontuação" e "2026 – 2027: Instituição do regulamento bienal" (texto fornecido pelo usuário, com links para a Portaria CNJ n. 471/2025 e o Plano Pena Justa); linha do tempo e menu reordenados em ordem decrescente de ano. |
 | 1.4 | 18/11/2026 | `simular_edicao.py` retirado do repositório e incluído no `.gitignore` (fica só no computador local). A pasta `simulacao/` local foi apagada; o painel mostra apenas os dados reais de 2025. |
 | 1.3 | 17/11/2026 | Percentual de cumprimento mostra sempre a última edição inserida: seletor de edição retirado; filtros de ramo e porte reorganizados lado a lado numa só linha, com "Todos" como primeira opção do porte. |
