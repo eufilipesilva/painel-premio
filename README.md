@@ -43,7 +43,7 @@ streamlit run app.py
 4. Envie para o GitHub; o Streamlit Cloud atualiza sozinho.
 
 Não é preciso mexer no código nem no `Serie_Completa.csv`: o painel passa a mostrar 2026 como edição
-atual, a Ficha e o Percentual ganham o seletor de edição (2026/2025) e o Histórico recebe 2026 a partir
+atual — a Ficha e o Percentual passam a mostrar 2026 — e o Histórico recebe 2026 a partir
 da própria planilha. Se um dia o ano entrar também no CSV, o CSV passa a valer para o histórico.
 
 ## Testar com dados simulados (só local)

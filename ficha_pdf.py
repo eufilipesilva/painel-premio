@@ -132,7 +132,7 @@ class BarraProgresso(Flowable):
 
 # --------------------------------------------------------------------------- PDF
 def gerar_pdf(trib: str, info: dict, itens: pd.DataFrame, por_eixo: pd.DataFrame,
-              ordem_eixos: list, cores_eixos: list, eixo_filtro: str = "Todos", ano: int = 2026) -> bytes:
+              ordem_eixos: list, cores_eixos: list, eixo_filtro: str = "Todos", ano: int = 2025) -> bytes:
     """
     info: Nome, Ramo, Porte, Premiação, Pontos, Máximo, Percentual
     itens: Eixo, Inciso, Descrição, Alínea, Máximo, Pontuação, Perc, Comentário (já ordenados)
