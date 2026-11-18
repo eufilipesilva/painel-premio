@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.10 — 18/11/2026**
+**Versão 1.11 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -340,6 +340,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.11 | 18/11/2026 | Arte do cartão 2026–2027: subtítulo trocado de "Regulamento bienal" para "Regulamento oficial". |
 | 1.10 | 18/11/2026 | Evolução do Prêmio: imagem de 2013 refeita em 4:3, com o selo inteiro centralizado sobre fundo marinho (a versão vertical era cortada no cartão). |
 | 1.9 | 18/11/2026 | Evolução do Prêmio: imagens passam a preencher o quadro 4:3 com cantos arredondados (o Streamlit forçava `scale-down`, deixando a foto com canto reto dentro de uma moldura). Cartões 2021 a 2022 e 2013 passam a usar imagens locais; nenhum cartão usa mais imagem da internet. |
 | 1.8 | 18/11/2026 | Evolução do Prêmio: incluídas as imagens dos cartões 2024 a 2025, 2020, 2019 e 2015 a 2018 (fornecidas pelo usuário) e a arte do cartão 2026–2027, criada no padrão do banner do painel (fundo marinho, textura geométrica do CNJ, Montserrat). |
