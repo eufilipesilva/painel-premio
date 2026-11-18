@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.8 — 18/11/2026**
+**Versão 1.9 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -119,9 +119,11 @@ Linha do tempo histórica do Selo e do Prêmio, com um menu lateral que acompanh
   |---|---|
   | 2026 – 2027 | `2026-2027.png` (arte no padrão do banner do painel) |
   | 2024 a 2025 | `2024-2025.jpg` |
+  | 2021 a 2022 | `2021-2022.jpg` |
   | 2020 | `2020.jpg` |
   | 2019 | `2019.jpg` |
   | 2015 a 2018 | `2015-2018.jpg` |
+  | 2013 | `2013.png` |
 
   - **Trocar ou incluir uma imagem:** basta salvar o arquivo na pasta com o nome da tabela e enviar para o
     GitHub. O formato pode ser JPG, JPEG, PNG ou WEBP: o painel aceita qualquer um com o mesmo nome (ex.:
@@ -130,7 +132,9 @@ Linha do tempo histórica do Selo e do Prêmio, com um menu lateral que acompanh
     isso é a função `_imagens_historia` em `app.py`.
   - **Cartão novo:** em `historia.py`, coloque como primeira linha dentro de `<div class="timeline-card">`:
     `<img src="app/static/historia/NOME.jpg" class="timeline-img" alt="descrição">`. Use nomes sem espaços nem acentos.
-  - Os cartões de 2021 a 2022 e de 2013 continuam com imagens da internet (Unsplash).
+  - **Enquadramento:** toda imagem preenche um quadro 4:3 com cantos arredondados (`object-fit: cover`). Imagens
+    em outra proporção são cortadas pelo centro; uma imagem vertical, como a de 2013, perde parte do topo e da base.
+    A regra usa `!important` porque o Streamlit aplica `scale-down` às imagens do markdown.
 
 - **O texto foi escrito manualmente e não deve ser alterado pelo painel.**
 - O conteúdo fica em `historia.py`. O painel lê os textos desse arquivo sem executá-lo e aplica apenas o
@@ -335,6 +339,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.9 | 18/11/2026 | Evolução do Prêmio: imagens passam a preencher o quadro 4:3 com cantos arredondados (o Streamlit forçava `scale-down`, deixando a foto com canto reto dentro de uma moldura). Cartões 2021 a 2022 e 2013 passam a usar imagens locais; nenhum cartão usa mais imagem da internet. |
 | 1.8 | 18/11/2026 | Evolução do Prêmio: incluídas as imagens dos cartões 2024 a 2025, 2020, 2019 e 2015 a 2018 (fornecidas pelo usuário) e a arte do cartão 2026–2027, criada no padrão do banner do painel (fundo marinho, textura geométrica do CNJ, Montserrat). |
 | 1.7 | 18/11/2026 | Evolução do Prêmio: os cartões 2026–2027, 2024 a 2025, 2020, 2019 e 2015 a 2018 passam a usar imagens locais em `static/historia/` (nomes fixos). O painel aceita JPG/JPEG/PNG/WEBP e esconde a imagem enquanto o arquivo não existir; as imagens quebradas da internet foram retiradas desses cartões. |
 | 1.6 | 18/11/2026 | Evolução do Prêmio: retirado o bloco "2024 - Foco no Cidadão e IA" (e seu link no menu). Criada a pasta `static/historia/` para as imagens dos cartões, servida pelo Streamlit (`enableStaticServing`). |

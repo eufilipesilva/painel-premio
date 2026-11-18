@@ -231,7 +231,7 @@ with col_main:
         </div>
         <div class="timeline-item" id="ano-2021">
             <div class="timeline-card">
-                <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80" class="timeline-img" alt="Premio2021">
+                <img src="app/static/historia/2021-2022.jpg" class="timeline-img" alt="Premio2021">
                 <div class="timeline-content">
                     <p class="timeline-year">2021 a 2022 - Criação de ferramentas de apoio aos tribunais</p>
                     <p class="timeline-text">A <a href="https://atos.cnj.jus.br/atos/detalhar/3916" target="_blank"><b>Portaria CNJ n. 135/2021</b></a> instituiu o regulamento do Prêmio CNJ de Qualidade 2021 e nesta edição foi criado o painel de Saneamento do DATAJUD, que apresentava resultados dos itens relacionados ao DATAJUD e informações para subsidiar os tribunais na correção de seus dados.</p>
@@ -302,7 +302,7 @@ with col_main:
         </div>
         <div class="timeline-item" id="ano-2013">
             <div class="timeline-card">
-                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=600&q=80" class="timeline-img" alt="Criação em 2019">
+                <img src="app/static/historia/2013.jpg" class="timeline-img" alt="Criação em 2019">
                 <div class="timeline-content">
                     <p class="timeline-year">2013 - Selo Justiça em Números</p>
                     <p class="timeline-text">O <b>Selo Justiça em Números</b> foi instituído oficialmente em 2013, por meio da <a href="https://atos.cnj.jus.br/atos/detalhar/atos-normativos?documento=1871" target="_blank"><b>Portaria CNJ n. 186/2013</b></a> com os seguintes objetivos: incentivar o aprimoramento do Sistema de Estatísticas do Poder Judiciário; promover a melhoria da qualidade da informação; e contribuir para produção de dados confiáveis sobre o Poder Judiciário.</p>

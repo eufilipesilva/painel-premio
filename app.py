@@ -308,8 +308,10 @@ html, [data-testid="stMain"], [data-testid="stAppViewContainer"] { scroll-behavi
     box-shadow: 0 6px 24px rgba(22,24,29,0.06); border-left: 6px solid @CIANO@; transition: transform 0.2s, box-shadow 0.2s;
     display: flex; flex-direction: row; gap: 32px; align-items: flex-start; }
 .timeline-card:hover { transform: translateX(6px); box-shadow: 0 10px 28px rgba(10,36,59,0.12); }
-.timeline-img { width: 250px; aspect-ratio: 4/3; border-radius: 14px; object-fit: cover;
-    box-shadow: 0 4px 12px rgba(22,24,29,0.10); flex-shrink: 0; }
+/* o Streamlit aplica object-fit: scale-down às imagens do markdown; cover preenche o quadro 4:3
+   e deixa os cantos arredondados na própria imagem */
+.timeline-img { width: 250px; aspect-ratio: 4/3; border-radius: 14px; object-fit: cover !important;
+    object-position: center; display: block; box-shadow: 0 4px 12px rgba(22,24,29,0.10); flex-shrink: 0; }
 .timeline-content { flex: 1; min-width: 0; }
 .timeline-year { font-family: 'Montserrat', sans-serif !important; font-size: 1.55rem; font-weight: 800;
     color: @AZUL@; margin: 0 0 16px 0; line-height: 1.25; }
