@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.13 — 18/11/2026**
+**Versão 1.14 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -119,7 +119,7 @@ Linha do tempo histórica do Selo e do Prêmio, com um menu lateral que acompanh
 
   | Cartão | Arquivo |
   |---|---|
-  | 2026 – 2027 | `2026-2027.png` (arte no padrão do banner do painel) |
+  | 2026 a 2027 | `2026-2027.png` (arte no padrão do banner do painel) |
   | 2024 a 2025 | `2024-2025.jpg` |
   | 2021 a 2022 | `2021-2022.jpg` |
   | 2020 | `2020.jpg` |
@@ -345,6 +345,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.14 | 18/11/2026 | Evolução do Prêmio (texto): link da Portaria CNJ n. 170/2022 no cartão 2021 a 2022; título "2026 a 2027" (antes "2026 – 2027") no cartão e no menu; novo primeiro parágrafo do cartão 2024 a 2025, com link para a Portaria CNJ n. 353/2023. |
 | 1.13 | 18/11/2026 | Ficha Avaliativa: filtro de eixo movido para dentro do quadro "Ficha avaliativa". Botão 🏠 corrigido para funcionar no Streamlit Cloud (link `./` em vez de `/`). |
 | 1.12 | 18/11/2026 | Evolução do Prêmio: imagens trocadas passam a aparecer na hora. O navegador guardava a versão antiga (o Streamlit não informa por quanto tempo guardar) e o painel em execução reaproveitava o HTML do cache; agora o endereço de cada imagem leva a data do arquivo e é montado fora do cache. |
 | 1.11 | 18/11/2026 | Arte do cartão 2026–2027: subtítulo trocado de "Regulamento bienal" para "Regulamento oficial". |
@@ -353,7 +354,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 | 1.8 | 18/11/2026 | Evolução do Prêmio: incluídas as imagens dos cartões 2024 a 2025, 2020, 2019 e 2015 a 2018 (fornecidas pelo usuário) e a arte do cartão 2026–2027, criada no padrão do banner do painel (fundo marinho, textura geométrica do CNJ, Montserrat). |
 | 1.7 | 18/11/2026 | Evolução do Prêmio: os cartões 2026–2027, 2024 a 2025, 2020, 2019 e 2015 a 2018 passam a usar imagens locais em `static/historia/` (nomes fixos). O painel aceita JPG/JPEG/PNG/WEBP e esconde a imagem enquanto o arquivo não existir; as imagens quebradas da internet foram retiradas desses cartões. |
 | 1.6 | 18/11/2026 | Evolução do Prêmio: retirado o bloco "2024 - Foco no Cidadão e IA" (e seu link no menu). Criada a pasta `static/historia/` para as imagens dos cartões, servida pelo Streamlit (`enableStaticServing`). |
-| 1.5 | 18/11/2026 | Evolução do Prêmio: incluídos os blocos "2024 a 2025 – Evolução do Critério de Pontuação" e "2026 – 2027: Instituição do regulamento bienal" (texto fornecido pelo usuário, com links para a Portaria CNJ n. 471/2025 e o Plano Pena Justa); linha do tempo e menu reordenados em ordem decrescente de ano. |
+| 1.5 | 18/11/2026 | Evolução do Prêmio: incluídos os blocos "2024 a 2025 – Evolução do Critério de Pontuação" e "2026 a 2027: Instituição do regulamento bienal" (texto fornecido pelo usuário, com links para a Portaria CNJ n. 471/2025 e o Plano Pena Justa); linha do tempo e menu reordenados em ordem decrescente de ano. |
 | 1.4 | 18/11/2026 | `simular_edicao.py` retirado do repositório e incluído no `.gitignore` (fica só no computador local). A pasta `simulacao/` local foi apagada; o painel mostra apenas os dados reais de 2025. |
 | 1.3 | 17/11/2026 | Percentual de cumprimento mostra sempre a última edição inserida: seletor de edição retirado; filtros de ramo e porte reorganizados lado a lado numa só linha, com "Todos" como primeira opção do porte. |
 | 1.2 | 17/11/2026 | Retirados os avisos de dados simulados do painel (selo no banner, "(simulação)" nos títulos e no seletor, marca no PDF e nos comentários). O mecanismo de simulação continua disponível para testes locais. |

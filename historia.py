@@ -203,7 +203,7 @@ with col_main:
             <div class="timeline-card">
                 <img src="app/static/historia/2026-2027.jpg" class="timeline-img" alt="Biênio 2026-2027">
                 <div class="timeline-content">
-                    <p class="timeline-year">2026 – 2027: Instituição do regulamento bienal</p>
+                    <p class="timeline-year">2026 a 2027: Instituição do regulamento bienal</p>
                     <p class="timeline-text">A fim de atender a necessidade dos tribunais de possuir critérios mais previsíveis para melhorar o trabalho nas políticas tocadas pelo prêmio, foi publicada a da <a href="https://atos.cnj.jus.br/atos/detalhar/6575" target="_blank"><b>Portaria CNJ n. 471/2025</b></a> que apresentou o edital do Biênio 2026-2027 do Prêmio CNJ de Qualidade.</p>
                     <p class="timeline-text">As categorias de premiação também foram reorganizadas neste edital. A categoria Excelência deixou de existir, e permanecem as premiações Diamante, Ouro e Prata, conferidas segundo o ramo de justiça e o porte do tribunal (grande, médio e pequeno), este definido pelo Relatório Justiça em Números do mesmo ano.</p>
                     <p class="timeline-text">Quanto aos critérios, a nova portaria criou critérios específicos relacionados ao <a href="https://www.cnj.jus.br/sistema-carcerario/plano-pena-justa/" target="_blank"><b>Plano Pena Justa</b></a>, voltado a enfrentar a situação de calamidade nas prisões brasileiras, além de novos parâmetros para o atendimento de pessoas idosas e para a capacitação de equipes multiprofissionais.</p>
@@ -215,7 +215,7 @@ with col_main:
                 <img src="app/static/historia/2024-2025.jpg" class="timeline-img" alt="Premio20242025">
                 <div class="timeline-content">
                     <p class="timeline-year">2024 a 2025 – Evolução do Critério de Pontuação</p>
-                    <p class="timeline-text">O prêmio a partir de 2024 instituiu o critério de premiação dos tribunais por portes, conforme classificação dos tribunais estaduais, eleitorais e do trabalho no relatório Justiça em Números publicado no ano da premiação.</p>
+                    <p class="timeline-text">A partir de 2024, o prêmio instituiu o critério de premiação dos tribunais por portes, conforme classificação dos tribunais estaduais, eleitorais e do trabalho no relatório Justiça em Números publicado no ano da premiação (<a href="https://atos.cnj.jus.br/atos/detalhar/5366" target="_blank"><b>Portaria CNJ N. 353/2023</b></a>).</p>
                     <p class="timeline-text">Além disso, os tribunais tiveram acesso a portaria em dezembro do ano anterior ao prêmio, antecipando também o prazo de impugnação ao edital, que passou a ser final de janeiro, atendendo uma antiga necessidade dos gestores dos tribunais a fim de realizar o planejamento das atividades relacionadas ao certame.</p>
                     <ul class="timeline-list">
                         <li>Ações voltadas à aposentadoria de magistrados;</li>
@@ -236,7 +236,7 @@ with col_main:
                     <p class="timeline-year">2021 a 2022 - Criação de ferramentas de apoio aos tribunais</p>
                     <p class="timeline-text">A <a href="https://atos.cnj.jus.br/atos/detalhar/3916" target="_blank"><b>Portaria CNJ n. 135/2021</b></a> instituiu o regulamento do Prêmio CNJ de Qualidade 2021 e nesta edição foi criado o painel de Saneamento do DATAJUD, que apresentava resultados dos itens relacionados ao DATAJUD e informações para subsidiar os tribunais na correção de seus dados.</p>
                     <p class="timeline-text">Além disso, foi apresentado o Painel de Resultados do Prêmio, com os resultados de todos os tribunais, as fichas e o desempenho dos tribunais por ramo em cada item.</p>
-                    <p class="timeline-text">Em 2022, o regulamento do Prêmio CNJ de Qualidade 2022 foi instituído pela <b>Portaria CNJ n. 170/2022</b> e era composto por 52 itens avaliativos, 10 a mais que o prêmio de 2021. Dentre as novidades apresentadas entre 2021 e 2022, temos seguintes temas abrangidos: </p>
+                    <p class="timeline-text">Em 2022, o regulamento do Prêmio CNJ de Qualidade 2022 foi instituído pela <a href="https://atos.cnj.jus.br/atos/detalhar/4549" target="_blank"><b>Portaria CNJ n. 170/2022</b></a> e era composto por 52 itens avaliativos, 10 a mais que o prêmio de 2021. Dentre as novidades apresentadas entre 2021 e 2022, temos seguintes temas abrangidos: </p>
                     <ul class="timeline-list">
                         <li>Plano Nacional de Atenção e Apoio às Vítimas de Crimes e Atos Infracionais.</li>
                         <li>Política de Gestão da Inovação.</li>
@@ -326,7 +326,7 @@ with col_menu:
 <div class="sticky-menu-container">
     <div class="sticky-title">Navegação Rápida</div>
     <div style="font-weight: 800; color: #1815dd; margin-top: 15px; margin-bottom: 5px; font-size: 14px; text-transform: uppercase;">Fase 2: Maturidade</div>
-    <a href="#ano-2026" class="sticky-link" style="padding-left: 10px;">📍 2026 – 2027: Instituição do regulamento bienal</a>
+    <a href="#ano-2026" class="sticky-link" style="padding-left: 10px;">📍 2026 a 2027: Instituição do regulamento bienal</a>
     <a href="#ano-20242025" class="sticky-link" style="padding-left: 10px;">📍 2024 a 2025 – Evolução do Critério de Pontuação</a>
     <a href="#ano-2021" class="sticky-link" style="padding-left: 10px;">📍 2021 a 2022 - Criações de ferramentas de apoio aos tribunais</a>
     <a href="#ano-2020" class="sticky-link" style="padding-left: 10px;">📍 2020 - Criação do DATAJUD</a>
