@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.11 — 18/11/2026**
+**Versão 1.12 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -128,6 +128,9 @@ Linha do tempo histórica do Selo e do Prêmio, com um menu lateral que acompanh
   - **Trocar ou incluir uma imagem:** basta salvar o arquivo na pasta com o nome da tabela e enviar para o
     GitHub. O formato pode ser JPG, JPEG, PNG ou WEBP: o painel aceita qualquer um com o mesmo nome (ex.:
     `2019.png`). Prefira a proporção 4:3 (ex.: 800 × 600) e menos de 500 KB.
+  - **Imagem trocada aparece na hora:** o painel acrescenta ao endereço de cada imagem a data do arquivo
+    (`?v=...`). Ao substituir uma imagem, o endereço muda e o navegador não usa a cópia antiga; basta recarregar a
+    página. As imagens são resolvidas fora do cache (`carregar_historia`), a cada exibição.
   - **Enquanto o arquivo não existir:** o cartão aparece só com texto, sem ícone de imagem quebrada. Quem faz
     isso é a função `_imagens_historia` em `app.py`.
   - **Cartão novo:** em `historia.py`, coloque como primeira linha dentro de `<div class="timeline-card">`:
@@ -340,6 +343,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.12 | 18/11/2026 | Evolução do Prêmio: imagens trocadas passam a aparecer na hora. O navegador guardava a versão antiga (o Streamlit não informa por quanto tempo guardar) e o painel em execução reaproveitava o HTML do cache; agora o endereço de cada imagem leva a data do arquivo e é montado fora do cache. |
 | 1.11 | 18/11/2026 | Arte do cartão 2026–2027: subtítulo trocado de "Regulamento bienal" para "Regulamento oficial". |
 | 1.10 | 18/11/2026 | Evolução do Prêmio: imagem de 2013 refeita em 4:3, com o selo inteiro centralizado sobre fundo marinho (a versão vertical era cortada no cartão). |
 | 1.9 | 18/11/2026 | Evolução do Prêmio: imagens passam a preencher o quadro 4:3 com cantos arredondados (o Streamlit forçava `scale-down`, deixando a foto com canto reto dentro de uma moldura). Cartões 2021 a 2022 e 2013 passam a usar imagens locais; nenhum cartão usa mais imagem da internet. |

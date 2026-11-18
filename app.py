@@ -517,7 +517,7 @@ def carregar_historico() -> pd.DataFrame:
 
 
 @st.cache_data
-def _historia(versao: tuple) -> dict:
+def _historia(versao: float) -> dict:
     """Lê os textos do historia.py sem executá-lo; o conteúdo é usado exatamente como está no arquivo."""
     import ast
     arvore = ast.parse(ARQUIVO_HISTORIA.read_text(encoding="utf-8"))
@@ -531,7 +531,7 @@ def _historia(versao: tuple) -> dict:
     return {
         "titulo": next((x for x in textos if 'class="page-title"' in x), ""),
         "subtitulo": next((x for x in textos if 'class="page-subtitle"' in x), ""),
-        "linha": _imagens_historia(variaveis.get("timeline_html", "")),
+        "linha": variaveis.get("timeline_html", ""),
         "menu": variaveis.get("menu_html", ""),
         "botoes": next((x for x in textos if "floating-btn" in x and "<a" in x), ""),
     }
@@ -547,18 +547,22 @@ def _imagens_historia(texto: str) -> str:
         nome = m.group(1)
         base, ext = Path(nome).stem, Path(nome).suffix.lower()
         for e in dict.fromkeys([ext] + EXTENSOES_IMAGEM):
-            if (PASTA_IMAGENS_HISTORIA / f"{base}{e}").is_file():
-                return m.group(0).replace(prefixo + nome, f"{prefixo}{base}{e}")
+            arquivo = PASTA_IMAGENS_HISTORIA / f"{base}{e}"
+            if arquivo.is_file():
+                # ?v=<data de modificação>: ao trocar a imagem, o endereço muda e o navegador não usa a cópia antiga
+                versao = int(arquivo.stat().st_mtime)
+                return m.group(0).replace(prefixo + nome, f"{prefixo}{base}{e}?v={versao}")
         return ""
 
     return re.sub(r'<img\b[^>]*\bsrc="' + re.escape(prefixo) + r'([^"]+)"[^>]*>\s*', troca, texto)
 
 
 def carregar_historia() -> dict:
-    # a versão inclui as imagens da pasta: ao salvar uma imagem nova, a página é atualizada
-    imagens = tuple(sorted((f.name, f.stat().st_mtime) for f in PASTA_IMAGENS_HISTORIA.glob("*")
-                           if f.is_file())) if PASTA_IMAGENS_HISTORIA.is_dir() else ()
-    return _historia((ARQUIVO_HISTORIA.stat().st_mtime, imagens))
+    # o texto vem do cache (renovado quando o historia.py muda); as imagens são resolvidas a cada
+    # exibição, fora do cache, para refletir na hora uma imagem trocada ou incluída na pasta
+    conteudo = dict(_historia(ARQUIVO_HISTORIA.stat().st_mtime))
+    conteudo["linha"] = _imagens_historia(conteudo["linha"])
+    return conteudo
 
 
 def num_fmt(v, casas=2):
