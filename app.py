@@ -359,7 +359,8 @@ html, [data-testid="stMain"], [data-testid="stAppViewContainer"] { scroll-behavi
     .floating-btn { right: 16px; } .floating-btn1 { right: 72px; } }
 </style>
 """
-BOTOES_HTML = """<a href="/" target="_self" class="floating-btn1">🏠</a>
+# "./" (e não "/"): no Streamlit Cloud o painel roda num iframe em .../~/+/, e "/" levaria para fora dele
+BOTOES_HTML = """<a href="./" target="_self" class="floating-btn1" title="Início">🏠</a>
 <a href="#topo" class="floating-btn">↑</a>"""
 for _k, _v in {"@PRETO@": cnj.PRETO, "@AZUL@": cnj.AZUL, "@CIANO@": cnj.CIANO, "@MARINHO@": cnj.MARINHO,
                "@AZUL_ESCURO@": cnj.AZUL_ESCURO}.items():
@@ -608,9 +609,6 @@ if pagina == FICHA:
         trib = st.pills(
             "Tribunal", tribs, default=tribs[0], key=f"ficha_trib_{re.sub(r'\W', '_', ramo_f)}"
         ) or tribs[0]
-        eixo_f = st.segmented_control(
-            "Eixo", ["Todos"] + ORDEM_EIXO, default="Todos", key="ficha_eixo"
-        ) or "Todos"
 
     info = tr_f.set_index("Tribunal").loc[trib]
     dt = df_f[df_f["Tribunal"] == trib].copy()
@@ -655,7 +653,13 @@ if pagina == FICHA:
             """
         )
 
-    # ---- quadro avaliativo
+    # ---- quadro avaliativo (o filtro de eixo fica dentro do próprio quadro, entre o título e a tabela)
+    quadro = cartao("ficha_quadro")
+    with quadro:
+        titulo_slot = st.empty()
+        eixo_f = st.segmented_control(
+            "Eixo", ["Todos"] + ORDEM_EIXO, default="Todos", key="ficha_eixo"
+        ) or "Todos"
     if eixo_f != "Todos":
         dt = dt[dt["Eixo"] == eixo_f]
     dt = dt.sort_values(["ordem_item", "Ordem", "Alínea"])
@@ -684,9 +688,9 @@ if pagina == FICHA:
                 "</tr>"
             )
 
-    with cartao("ficha_quadro"):
+    with quadro:
         titulo = f"Ficha avaliativa {ano_f}" + ("" if eixo_f == "Todos" else f" — {eixo_f}")
-        st.subheader(titulo)
+        titulo_slot.subheader(titulo)
         st.html(
             '<div class="ficha-quadro"><table>'
             '<colgroup><col style="width:105px"><col style="width:24%"><col style="width:62px">'

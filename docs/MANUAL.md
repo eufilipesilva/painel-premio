@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.12 — 18/11/2026**
+**Versão 1.13 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -35,6 +35,8 @@ streamlit run app.py              # abre em http://localhost:8501
 - Logo abaixo fica o banner azul com o logotipo branco do CNJ e o título "Painel de Resultados {edição atual}".
 - No rodapé ficam a textura geométrica, o logotipo colorido e a edição atual.
 - Em todas as páginas há dois botões flutuantes no canto inferior direito: 🏠 (início) e ↑ (topo).
+  O 🏠 recarrega o painel na Ficha Avaliativa. O link é `./`, e não `/`: no Streamlit Cloud o painel roda num
+  iframe em `.../~/+/`, e `/` levaria para fora dele.
 
 ---
 
@@ -48,7 +50,7 @@ Mostra a avaliação completa de um tribunal na **última edição inserida**, q
 |---|---|
 | Ramo de justiça | Escolhe o ramo. A lista de tribunais embaixo muda conforme o ramo. |
 | Tribunal | Botões com as siglas do ramo, em ordem natural (TRT2 antes de TRT10). |
-| Eixo | Todos, Governança, Produtividade, Transparência ou Dados e Tecnologia. Filtra o quadro. |
+| Eixo | Fica dentro do quadro "Ficha avaliativa", entre o título e a tabela: Todos, Governança, Produtividade, Transparência ou Dados e Tecnologia. Filtra a tabela, o título e os downloads. |
 | Cabeçalho | Sigla, nome completo, selo da premiação, % de cumprimento, pontos/máximo, ramo e porte. |
 | Barras por eixo | % de cada eixo, com os pontos obtidos sobre o máximo. |
 | Quadro avaliativo | Uma linha por item: inciso, descrição, alínea, ordem, máximo, pontuação, % atingido e comentário. Há uma linha de subtotal por eixo. |
@@ -343,6 +345,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.13 | 18/11/2026 | Ficha Avaliativa: filtro de eixo movido para dentro do quadro "Ficha avaliativa". Botão 🏠 corrigido para funcionar no Streamlit Cloud (link `./` em vez de `/`). |
 | 1.12 | 18/11/2026 | Evolução do Prêmio: imagens trocadas passam a aparecer na hora. O navegador guardava a versão antiga (o Streamlit não informa por quanto tempo guardar) e o painel em execução reaproveitava o HTML do cache; agora o endereço de cada imagem leva a data do arquivo e é montado fora do cache. |
 | 1.11 | 18/11/2026 | Arte do cartão 2026–2027: subtítulo trocado de "Regulamento bienal" para "Regulamento oficial". |
 | 1.10 | 18/11/2026 | Evolução do Prêmio: imagem de 2013 refeita em 4:3, com o selo inteiro centralizado sobre fundo marinho (a versão vertical era cortada no cartão). |
