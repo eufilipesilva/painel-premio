@@ -33,7 +33,6 @@ streamlit run app.py
 | `historico.py` | Tratamento da série histórica |
 | `identidade.py` | Cores, logotipos e textura do CNJ |
 | `verificar_dados.py` | Conferência dos arquivos de dados |
-| `simular_edicao.py` | Gera uma edição simulada para testes |
 | `assets/` | Logotipos e manual do CNJ; fonte Montserrat (licença OFL) |
 
 ## Publicar uma nova edição (ex.: 2026)
@@ -47,7 +46,10 @@ Não é preciso mexer no código nem no `Serie_Completa.csv`: o painel passa a m
 atual, a Ficha e o Percentual ganham o seletor de edição (2026/2025) e o Histórico recebe 2026 a partir
 da própria planilha. Se um dia o ano entrar também no CSV, o CSV passa a valer para o histórico.
 
-## Testar com dados simulados
+## Testar com dados simulados (só local)
+
+O script `simular_edicao.py` fica apenas no computador de quem mantém o painel: ele está no
+`.gitignore` e não vai para o GitHub.
 
 ```powershell
 python simular_edicao.py                          # cria simulacao/2026/base_final.xlsx

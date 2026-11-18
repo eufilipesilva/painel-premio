@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.3 — 17/11/2026**
+**Versão 1.4 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -203,7 +203,7 @@ arquivos originais não são alterados.
 | `identidade.py` | Cores oficiais do CNJ, logotipos (`logo_data_uri`) e a textura geométrica (`textura_svg`) |
 | `historia.py` | Conteúdo da página Evolução do Prêmio (somente leitura para o painel) |
 | `verificar_dados.py` | Confere os dados antes de publicar |
-| `simular_edicao.py` | Gera uma edição simulada para testes |
+| `simular_edicao.py` | Gera uma edição simulada para testes. **Só local:** está no `.gitignore` e não vai para o GitHub |
 | `gerar_manual_pdf.py` | Gera o PDF deste manual com a identidade visual do CNJ |
 | `docs/` | Este manual (`MANUAL.md` e `MANUAL.pdf`) e as versões anteriores em `docs/versoes/` |
 | `.streamlit/config.toml` | Tema: Montserrat, cor primária `#0f76b5`, fundo `#F1F3F6` |
@@ -246,7 +246,9 @@ arquivos originais não são alterados.
 - Para desligar: `Remove-Item Env:PAINEL_SIMULACAO`.
 - O painel **não exibe nenhum aviso de simulação**: a edição simulada aparece igual a uma edição real.
   Por isso, use a simulação só no seu computador e nunca envie a pasta `simulacao/` para o GitHub.
-- `simulacao/` está no `.gitignore`. Sem a variável, ela é ignorada, então o painel publicado nunca a mostra.
+- `simular_edicao.py` e `simulacao/` estão no `.gitignore`: o script e as planilhas simuladas existem só no
+  computador de quem mantém o painel.
+- Sem a variável `PAINEL_SIMULACAO`, a pasta `simulacao/` é ignorada, então o painel publicado nunca a mostra.
   Uma edição real do mesmo ano tem prioridade sobre a simulada.
 
 ### 4.6 Carrossel da linha do tempo
@@ -309,6 +311,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.4 | 18/11/2026 | `simular_edicao.py` retirado do repositório e incluído no `.gitignore` (fica só no computador local). A pasta `simulacao/` local foi apagada; o painel mostra apenas os dados reais de 2025. |
 | 1.3 | 17/11/2026 | Percentual de cumprimento mostra sempre a última edição inserida: seletor de edição retirado; filtros de ramo e porte reorganizados lado a lado numa só linha, com "Todos" como primeira opção do porte. |
 | 1.2 | 17/11/2026 | Retirados os avisos de dados simulados do painel (selo no banner, "(simulação)" nos títulos e no seletor, marca no PDF e nos comentários). O mecanismo de simulação continua disponível para testes locais. |
 | 1.1 | 17/11/2026 | A Ficha Avaliativa mostra sempre a última edição inserida: o seletor de edição foi retirado dela e continua só no Percentual de cumprimento. |
