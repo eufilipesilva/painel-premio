@@ -1,6 +1,6 @@
 # Manual do Painel de Resultados — Prêmio CNJ de Qualidade
 
-**Versão 1.4 — 18/11/2026**
+**Versão 1.5 — 18/11/2026**
 
 Este documento é para quem for manter o painel: atualizar dados, ajustar textos, corrigir algo ou
 acrescentar funcionalidades. Ele descreve o que o painel faz, de onde vem cada informação e onde cada coisa
@@ -106,6 +106,12 @@ Análise da trajetória de um tribunal de 2014 até a edição atual.
 ### 2.4 Evolução do Prêmio
 
 Linha do tempo histórica do Selo e do Prêmio, com um menu lateral que acompanha a rolagem e leva a cada ano.
+
+- **Ordem:** decrescente, com o mais recente primeiro. Primeiro vem a fase "Maturidade e Inteligência" (2026–2027 até 2019),
+  depois a fase do Selo (2015 a 2018 e 2013). O menu de navegação rápida segue a mesma ordem.
+- **Para incluir um ano novo:** em `historia.py`, copie um bloco `<div class="timeline-item" id="ano-…">` e coloque-o
+  **no topo** da fase. Acrescente o link `#ano-…` correspondente no início do menu (`menu_html`). O id do bloco e o
+  `href` do link precisam ser iguais.
 
 - **O texto foi escrito manualmente e não deve ser alterado pelo painel.**
 - O conteúdo fica em `historia.py`. O painel lê os textos desse arquivo sem executá-lo e aplica apenas o
@@ -311,6 +317,7 @@ numeradas), tabelas, blocos de código, **negrito**, `código` e links.
 
 | Versão | Data | Mudanças |
 |---|---|---|
+| 1.5 | 18/11/2026 | Evolução do Prêmio: incluídos os blocos "2024 a 2025 – Evolução do Critério de Pontuação" e "2026 – 2027: Instituição do regulamento bienal" (texto fornecido pelo usuário, com links para a Portaria CNJ n. 471/2025 e o Plano Pena Justa); linha do tempo e menu reordenados em ordem decrescente de ano. |
 | 1.4 | 18/11/2026 | `simular_edicao.py` retirado do repositório e incluído no `.gitignore` (fica só no computador local). A pasta `simulacao/` local foi apagada; o painel mostra apenas os dados reais de 2025. |
 | 1.3 | 17/11/2026 | Percentual de cumprimento mostra sempre a última edição inserida: seletor de edição retirado; filtros de ramo e porte reorganizados lado a lado numa só linha, com "Todos" como primeira opção do porte. |
 | 1.2 | 17/11/2026 | Retirados os avisos de dados simulados do painel (selo no banner, "(simulação)" nos títulos e no seletor, marca no PDF e nos comentários). O mecanismo de simulação continua disponível para testes locais. |
